@@ -15,19 +15,17 @@ import javax.persistence.Id;
 public class Movie {
 
     @Id
-    @Column(length = 11)
     private String id;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false)
     private String genres;
 
-    private int startYear;
+    private Integer runtime;
+
+    private Integer startYear;
 
     private Integer endYear;
 
