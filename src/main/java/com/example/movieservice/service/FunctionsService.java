@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class FunctionalService {
+public class FunctionsService {
 
     private final MovieRepo movieRepo;
 

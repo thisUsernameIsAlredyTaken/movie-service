@@ -1,14 +1,13 @@
 package com.example.movieservice.repository;
 
 import com.example.movieservice.model.Movie;
-import com.example.movieservice.model.MovieFullInfo;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +31,10 @@ public interface MovieRepo extends JpaRepository<Movie, String> {
     @Query(nativeQuery = true,
             value = "select m.*, r.popularity, r.rating from movie m join rating r using (id) " +
                     "where m.id = :id")
-    Optional<MovieFullInfo> getFullInfo(@Param("id") String id);
+    Optional<Map<String, Object>> getFullInfo(@Param("id") String id);
+
+    @Query(nativeQuery = true,
+            value = "select m.*, r.popularity, r.rating from movie m join rating r using (id) " +
+                    "where m.id in :ids")
+    List<Map<String, Object>> getFullInfoAll(@Param("ids") List<String> ids);
 }
