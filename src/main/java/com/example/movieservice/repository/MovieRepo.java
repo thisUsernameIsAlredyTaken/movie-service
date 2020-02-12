@@ -14,27 +14,40 @@ import java.util.Optional;
 public interface MovieRepo extends JpaRepository<Movie, String> {
 
     @Query(nativeQuery = true,
-            value = "select m.* from search_movies(:pattern, :page, :page_size) " +
-                    "join movie m using (id)")
-    List<Movie> search(@Param("pattern") String pattern,
-                       @Param("page") int page,
-                       @Param("page_size") int pageSize);
+            value = "select m.*, r.popularity, r.rating, p.pic_uri "
+                    + "from search_movies(:pattern, :page, :page_size) "
+                    + "join movie m using (id) "
+                    + "join rating r using (id) "
+                    + "join picture p using (id)"
+    )
+    List<Map<String, Object>> search(@Param("pattern") String pattern,
+                                     @Param("page") int page,
+                                     @Param("page_size") int pageSize);
 
     @Query(nativeQuery = true,
-            value = "select m.* from recommended_movies(:watched, :scores, :page, :page_size) " +
-                    "join movie m using(id)")
-    List<Movie> recommend(@Param("watched") String watched,
-                          @Param("scores") String scores,
-                          @Param("page") int page,
-                          @Param("page_size") int pageSize);
+            value = "select m.*, r.popularity, r.rating, p.pic_uri " +
+                    "from recommended_movies(:watched, :scores, :page, :page_size) " +
+                    "join movie m using (id) " +
+                    "join rating r using (id) " +
+                    "join picture p using (id)")
+    List<Map<String, Object>> recommend(@Param("watched") String watched,
+                                        @Param("scores") String scores,
+                                        @Param("page") int page,
+                                        @Param("page_size") int pageSize);
 
     @Query(nativeQuery = true,
-            value = "select m.*, r.popularity, r.rating from movie m join rating r using (id) " +
+            value = "select m.*, r.popularity, r.rating, p.pic_uri " +
+                    "from movie m " +
+                    "join rating r using (id) " +
+                    "join picture p using (id)" +
                     "where m.id = :id")
     Optional<Map<String, Object>> getFullInfo(@Param("id") String id);
 
     @Query(nativeQuery = true,
-            value = "select m.*, r.popularity, r.rating from movie m join rating r using (id) " +
+            value = "select m.*, r.popularity, r.rating, p.pic_uri " +
+                    "from movie m " +
+                    "join rating r using (id) " +
+                    "join picture p using (id)" +
                     "where m.id in :ids")
     List<Map<String, Object>> getFullInfoAll(@Param("ids") List<String> ids);
 }

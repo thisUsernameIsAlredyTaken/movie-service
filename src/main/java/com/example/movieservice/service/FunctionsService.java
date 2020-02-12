@@ -1,23 +1,27 @@
 package com.example.movieservice.service;
 
-import com.example.movieservice.model.Movie;
 import com.example.movieservice.repository.MovieRepo;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
-@AllArgsConstructor
 public class FunctionsService {
 
-    private final MovieRepo movieRepo;
+    @Autowired
+    private MovieRepo movieRepo;
 
-    public List<Movie> search(String pattern, int page, int pageSize) {
-        return movieRepo.search(pattern, page, pageSize);
+    @Autowired
+    private DataFormatService dataFormatService;
+
+    public List<Map<String, Object>> search(String pattern, int page, int pageSize) {
+        return dataFormatService.formatMovies(movieRepo.search(pattern, page, pageSize));
     }
 
-    public List<Movie> recommend(String watched, String scores, int page, int pageSize) {
-        return movieRepo.recommend(watched, scores, page, pageSize);
+    public List<Map<String, Object>> recommend(String watched, String scores,
+                                               int page, int pageSize) {
+        return dataFormatService.formatMovies(movieRepo.recommend(watched, scores, page, pageSize));
     }
 }

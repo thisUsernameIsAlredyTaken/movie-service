@@ -14,27 +14,14 @@ public class InfoService {
     @Autowired
     private MovieRepo movieRepo;
 
-    private Map<String, Object> splitGenresToArray(Map<String, Object> movieMap) {
-        Map<String, Object> newMovieMap = new HashMap<>();
-        if (movieMap != null && movieMap.get("genres") != null) {
-            newMovieMap.putAll(movieMap);
-            String genres = (String) newMovieMap.get("genres");
-            newMovieMap.replace("genres", genres.split(","));
-        }
-        return newMovieMap;
-    }
+    @Autowired
+    private DataFormatService dataFormatService;
 
     public Map<String, Object> findFullInfoById(String id) {
-        return splitGenresToArray(movieRepo.getFullInfo(id).orElse(null));
+        return dataFormatService.formatMovie(movieRepo.getFullInfo(id).orElse(null));
     }
 
-    public Map<String, Map<String, Object>> findFullInfoByIds(List<String> ids) {
-        Map<String, Map<String, Object>> movies = new HashMap<>();
-        movieRepo.getFullInfoAll(ids).forEach(stringObjectMap -> {
-            Map<String, Object> uniteInfo = splitGenresToArray(stringObjectMap);
-            uniteInfo.remove("id");
-            movies.put((String) stringObjectMap.get("id"), uniteInfo);
-        });
-        return movies;
+    public List<Map<String, Object>> findFullInfoByIds(List<String> ids) {
+        return dataFormatService.formatMovies(movieRepo.getFullInfoAll(ids));
     }
 }
