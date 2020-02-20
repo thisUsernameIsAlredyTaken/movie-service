@@ -35,11 +35,6 @@ public class Movie {
 
     public void setGenres(String... genres) {
         String stringGenres = String.join(",", genres);
-        for (char c : stringGenres.toCharArray()) {
-            if (c != ',' && !Character.isLetter(c)) {
-                throw new IllegalArgumentException();
-            }
-        }
         this.genres = stringGenres.toLowerCase();
     }
 }
