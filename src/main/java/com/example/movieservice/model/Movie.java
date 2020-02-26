@@ -29,6 +29,8 @@ public class Movie {
 
     private Integer endYear;
 
+    private String description;
+
     public String[] getGenres() {
         return genres.split(",");
     }

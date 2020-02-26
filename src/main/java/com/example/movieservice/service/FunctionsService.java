@@ -25,4 +25,8 @@ public class FunctionsService {
         }
         return movieRepo.recommend(watched, scores, page, pageSize);
     }
+
+    public int searchCount(String pattern) {
+        return movieRepo.countAllByTitleIsLike('%' + pattern + '%');
+    }
 }

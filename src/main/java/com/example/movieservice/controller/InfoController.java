@@ -26,8 +26,8 @@ public class InfoController {
     }
 
     @GetMapping("info")
-    public List<Map<String, Object>> findAllById(@RequestParam String movieIds) {
-        List<String> ids = Arrays.asList(movieIds.split(","));
-        return infoService.findFullInfoByIds(ids);
+    public List<Map<String, Object>> findAllById(@RequestParam List<String> movieIds) {
+//        List<String> ids = Arrays.asList(movieIds.split(","));
+        return infoService.findFullInfoByIds(movieIds);
     }
 }
