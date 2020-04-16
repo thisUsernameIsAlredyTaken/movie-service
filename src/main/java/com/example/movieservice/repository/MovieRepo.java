@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface MovieRepo extends JpaRepository<Movie, String> {
 
-    int countAllByTitleIsLike(String pattern);
+    int countAllByTitleIsLikeIgnoreCase(String pattern);
 
     @Query(nativeQuery = true,
             value = "select m.*, r.popularity, r.rating, p.pic_uri "

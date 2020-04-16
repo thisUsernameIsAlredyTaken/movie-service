@@ -1,6 +1,5 @@
 package com.example.movieservice.service;
 
-import com.example.movieservice.model.Movie;
 import com.example.movieservice.repository.MovieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +26,6 @@ public class FunctionsService {
     }
 
     public int searchCount(String pattern) {
-        return movieRepo.countAllByTitleIsLike('%' + pattern + '%');
+        return movieRepo.countAllByTitleIsLikeIgnoreCase('%' + pattern + '%');
     }
 }
